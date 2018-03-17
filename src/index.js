@@ -88,26 +88,29 @@ class Game extends React.Component {
         const winner = calculateWinner(current.squares);
         var status;
         if (winner) {
-            status = 'Winner : ' + winner;
+            status = winner + ' !';
         } else {
-            status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+            status = (this.state.xIsNext ? 'X' : 'O') + ' ?';
         }
-
         const moves = history.map((step, move) => {
-            const desc = move ?
-                         'Got to move #' + move :
-                         'Go to game start';
+            const turn = (move % 2 === 0 ? 'X' : 'O');
+            const last = move ? formatMove(lastMove(
+                history[move - 1].squares,
+                history[move].squares
+            )) : 'START';
+            const cur = move === this.state.stepNumber ? '>' : '='
+            const desc = turn  + ' @ ' + last;
             return (
-                <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>
-                        {desc}
-                    </button>
+                <li>
+                    <p>{cur}</p>
+                    <p key={move} onClick={() => this.jumpTo(move)}>{desc}</p>
                 </li>
             );
         });
 
         return (
             <div className="game">
+                <div className="game-status">{status}</div>
                 <div className="game-board">
                 <Board
                     squares={current.squares}
@@ -115,10 +118,7 @@ class Game extends React.Component {
                         this.handleClick(i)}
                 />
                 </div>
-                <div className="game-info">
-                <div>{status}</div>
-                <ol>{moves}</ol>
-                </div>
+                <ul>{moves}</ul>
             </div>
         );
     }
@@ -145,7 +145,21 @@ function calculateWinner(squares) {
     return null;
 };
 
-    // ========================================
+function lastMove(last, current) {
+    for (let i = 0; i < 10; i++) {
+        if (last[i] != current[i]) {
+            return i;
+        };
+    }
+    return null;
+};
+
+function formatMove(move) {
+    const offset = move % 3;
+    return ((move - offset + 3) / 3) + ":" + (offset + 1);
+};
+
+// ========================================
 
     ReactDOM.render(
         <Game />,
