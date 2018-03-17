@@ -94,11 +94,11 @@ class Game extends React.Component {
         }
         const moves = history.map((step, move) => {
             const turn = (move % 2 === 0 ? 'X' : 'O');
-            const last = move ? formatMove(lastMove(
-                history[move - 1].squares,
-                history[move].squares
-            )) : 'START';
-            const cur = move === this.state.stepNumber ? '>' : '='
+            const last = move < history.length - 1 ? formatMove(lastMove(
+                history[move].squares,
+                history[move + 1].squares
+            )) : 'NEXT';
+            const cur = move === this.state.stepNumber ? '>' : '\u00A0'
             const desc = turn  + ' @ ' + last;
             return (
                 <li>

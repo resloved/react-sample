@@ -6,12 +6,12 @@ body {
 }
 
 .square:hover {
-  background: #CCC;
+  color: #222;
 }
 
 .square:active {
-  background: #999;
-  color: #999;
+  color: #111;
+  background: #EEE;
 }
 
 
@@ -28,7 +28,6 @@ ol, ul {
 
 .square {
   background: #fff;
-  color: #444;
   border: 1px solid #999;
   float: left;
   font-size: 10px;
@@ -81,3 +80,7 @@ ol, ul {
   border-left: 1px solid #CCC;
   cursor: pointer;
 }
+
+.game li p:nth-child(2):hover {
+  color: #444;
+}    
